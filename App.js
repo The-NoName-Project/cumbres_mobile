@@ -1,35 +1,15 @@
-import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StatusBar} from 'react-native';
+import {AuthProvider} from './components/context/AuthContext';
+import Navigation from './components/navigation/Navigation';
 
-const Stack = createNativeStackNavigator();
-
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <StatusBar backgroundColor="#06bcee" />
+      <Navigation />
+    </AuthProvider>
   );
-}
-function HomeScreen() {
-  return (
-    <View style={style.view}>
-      <Text style={style.text}>Hello World</Text>
-    </View>
-  );
-}
+};
 
-const style = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
+export default App;
