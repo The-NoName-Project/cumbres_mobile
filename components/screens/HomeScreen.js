@@ -11,17 +11,10 @@ const HomeScreen = () => {
 
 
   return (
-    <View style={styles.grup}>
-      <Text style={styles.title}>Tipo de Usuario {role}</Text>
-      <View style={styles.container}>
-        <Spinner visible={isLoading} />
-        <Text style={styles.welcome}>Bienvenido de Nuevo</Text>
-        <Text style={styles.welcome}>{userInfo.user.name} {userInfo.user.app} {userInfo.user.apm}</Text>
-      </View>
-      <View style={styles.button}>
-        {/* <Button title="Logout" color="red" onPress={logout} /> */}
-        <Text style={styles.logout} onPress={logout}>Cerrar Sesion</Text>
-      </View>
+    <View style={styles.container}>
+      <Spinner visible={isLoading} />
+      <Text style={styles.welcome}>Bienvenido de Nuevo</Text>
+      <Text style={styles.welcome}>{userInfo.user.name} {userInfo.user.app} {userInfo.user.apm}</Text>
     </View>
   );
 };

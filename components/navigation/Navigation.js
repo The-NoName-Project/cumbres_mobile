@@ -8,6 +8,7 @@ import SplashScreen from '../screens/SplashScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Questions from '../screens/Questions';
+import DataUser from '../screens/DataUser';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,17 @@ const Navigation = () => {
                   <Icon name="questioncircleo" color={'black'} size={15} />
                 ),
               }}
-            /></>
+            />
+            <Tab.Screen name="DataUser" component={DataUser}
+              options={{
+                headerShown: false,
+                tabBarLabel: 'Datos',
+                tabBarIcon: ({ }) => (
+                  <Icon name="user" color={'black'} size={15} />
+                ),
+              }}
+            />
+          </>
         ) : (
           <>
             <Tab.Screen
