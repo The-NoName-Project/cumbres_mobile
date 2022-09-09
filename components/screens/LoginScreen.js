@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   Text,
@@ -8,28 +8,29 @@ import {
   StyleSheet,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {AuthContext} from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const {isLoading, login} = useContext(AuthContext);
+  const { isLoading, login } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
+        <Text style={styles.label}>Correo electrónico</Text>
         <TextInput
           style={styles.input}
           value={email}
-          placeholder="Enter email"
+          placeholder="Introduce tu Correo Electronico"
           onChangeText={text => setEmail(text)}
         />
-
+        <Text style={styles.label}>Contraseña</Text>
         <TextInput
           style={styles.input}
           value={password}
-          placeholder="Enter password"
+          placeholder="Introduce tu Contraseña"
           onChangeText={text => setPassword(text)}
           secureTextEntry
         />
@@ -42,9 +43,9 @@ const LoginScreen = ({navigation}) => {
         />
 
         <View style={styles.dont}>
-          <Text>Don't have an account? </Text>
+          <Text style={{ fontWeight: 'bold' }}>¿No tienes cuenta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.link}>Register</Text>
+            <Text style={styles.link}>Registrate</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -74,6 +75,10 @@ const styles = StyleSheet.create({
   dont: {
     flexDirection: 'row',
     marginTop: 20,
+  },
+  label: {
+    marginBottom: 7,
+    fontWeight: 'bold',
   },
 });
 

@@ -1,42 +1,70 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React, {createContext, useEffect, useState} from 'react';
-import {BASE_URL} from '../config';
+import React, { createContext, useEffect, useState } from 'react';
+import { BASE_URL } from '../config';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
+  const [role, setRole] = useState({});
+  const [school, setSchool] = useState({});
 
-  const register = (name, email, password) => {
-    setIsLoading(true);
-
-    axios.post(BASE_URL + '/register')
-      .then((res) => {
-        setIsLoading(false);
-        console.log(res.data);
-        setUserInfo(res.data);
+  const getSchool = () => {
+    axios
+      .get(BASE_URL + '/school')
+      .then(res => {
+        let school = res.data;
+        console.log('school', school);
+        setSchool(school);
+        AsyncStorage.setItem('school', JSON.stringify(school));
       })
-      .catch((err) => {
-        setIsLoading(false);
+      .catch(err => {
         console.log(err);
       });
-  };
+  }
 
-  //     .then(res => {
-  //       let userInfo = res.data;
-  //       setUserInfo(userInfo);
-  //       AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-  //       setIsLoading(false);
-  //       console.log(userInfo);
-  //     })
-  //     .catch(e => {
-  //       console.log(`register error ${e}`);
-  //       setIsLoading(false);
-  //     });
-  // };
+  const getRole = () => {
+    axios
+      .get(BASE_URL + '/role')
+      .then(res => {
+        let role = res.data;
+        console.log('role', role);
+        setRole(role);
+        AsyncStorage.setItem('role', JSON.stringify(role));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  const register = (name, app, apm, school_id, level_id, email, password) => {
+    setIsLoading(true);
+
+    axios.post(BASE_URL + '/register', {
+      name,
+      app,
+      apm,
+      school_id,
+      role_id: 2,
+      level_id,
+      email,
+      password,
+    })
+      .then(res => {
+        let userInfo = res.data;
+        setUserInfo(userInfo);
+        AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+        setIsLoading(false);
+        console.log(userInfo);
+      })
+      .catch(e => {
+        console.log(`register error ${e}`);
+        setIsLoading(false);
+      });
+  };
 
   const login = (email, password) => {
     setIsLoading(true);
@@ -61,25 +89,9 @@ export const AuthProvider = ({children}) => {
 
   const logout = () => {
     setIsLoading(true);
-
-    axios
-      .post(
-        `${BASE_URL}/logout`,
-        {},
-        {
-          headers: {Authorization: `Bearer ${userInfo.access_token}`},
-        },
-      )
-      .then(res => {
-        console.log(res.data);
-        AsyncStorage.removeItem('userInfo');
-        setUserInfo({});
-        setIsLoading(false);
-      })
-      .catch(e => {
-        console.log(`logout error ${e}`);
-        setIsLoading(false);
-      });
+    AsyncStorage.removeItem('userInfo');
+    setUserInfo({});
+    setIsLoading(false);
   };
 
   const isLoggedIn = async () => {
@@ -113,6 +125,8 @@ export const AuthProvider = ({children}) => {
         register,
         login,
         logout,
+        getRole,
+        getSchool,
       }}>
       {children}
     </AuthContext.Provider>
