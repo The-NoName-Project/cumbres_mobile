@@ -6,39 +6,10 @@ import { BASE_URL } from '../config';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [res, setRes] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
-  const [role, setRole] = useState({});
-  const [school, setSchool] = useState({});
-
-  const getSchool = () => {
-    axios
-      .get(BASE_URL + '/school')
-      .then(res => {
-        let school = res.data;
-        console.log('school', school);
-        setSchool(school);
-        AsyncStorage.setItem('school', JSON.stringify(school));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  const getRole = () => {
-    axios
-      .get(BASE_URL + '/role')
-      .then(res => {
-        let role = res.data;
-        console.log('role', role);
-        setRole(role);
-        AsyncStorage.setItem('role', JSON.stringify(role));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
 
   const register = (name, app, apm, school_id, level_id, email, password) => {
     setIsLoading(true);
@@ -87,24 +58,59 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
+
+  const questions = async (q1, q2, q3, q4, q5, q6, q7, q8, id) => {
+    setIsLoading(true);
+    //cambia el id por user_id
+    let user_id = id;
+    axios
+      .post(BASE_URL + '/question', {
+        q1,
+        q2,
+        q3,
+        q4,
+        q5,
+        q6,
+        q7,
+        q8,
+        user_id,
+      })
+      .then(res => {
+        let questions = res.data.message;
+        console.log(questions);
+        setRes(true);
+        AsyncStorage.setItem('questions', JSON.stringify(questions));
+        setIsLoading(false);
+      })
+      .catch(e => {
+        console.log(`questions error ${e}`);
+        setRes(false);
+        setIsLoading(false);
+      });
+  };
+
+
   const logout = () => {
     setIsLoading(true);
     AsyncStorage.removeItem('userInfo');
+    AsyncStorage.removeItem('questions');
+    setRes(false);
     setUserInfo({});
     setIsLoading(false);
+    console.log('logout');
   };
 
   const isLoggedIn = async () => {
     try {
       setSplashLoading(true);
-
+      let res = true;
+      res = JSON.parse(true);
       let userInfo = await AsyncStorage.getItem('userInfo');
       userInfo = JSON.parse(userInfo);
-
       if (userInfo) {
         setUserInfo(userInfo);
+        setRes(true);
       }
-
       setSplashLoading(false);
     } catch (e) {
       setSplashLoading(false);
@@ -124,9 +130,9 @@ export const AuthProvider = ({ children }) => {
         splashLoading,
         register,
         login,
+        questions,
+        res,
         logout,
-        getRole,
-        getSchool,
       }}>
       {children}
     </AuthContext.Provider>

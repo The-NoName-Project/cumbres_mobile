@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
+import { Picker } from '@react-native-picker/picker';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState(null);
@@ -16,7 +17,8 @@ const RegisterScreen = ({ navigation }) => {
   const [apm, setApm] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-
+  const [school_id, setSchool_id] = useState(null);
+  const [level_id, setLevel_id] = useState(null);
 
   const { isLoading, register } = useContext(AuthContext);
 
@@ -60,6 +62,25 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={text => setPassword(text)}
           secureTextEntry
         />
+        <Picker
+          selectedValue={level_id}
+          style={{ height: 50, width: 150 }}
+          onValueChange={itemValue => setLevel_id(itemValue)}
+        >
+          <Picker.Item label="Atleta" value="1" />
+          <Picker.Item label="Administrador" value="2" />
+          <Picker.Item label="Estudiante" value="3" />
+          <Picker.Item label="Escuelas" value="4" />
+        </Picker>
+
+        <Picker
+          selectedValue={school_id}
+          style={{ height: 50, width: 150 }}
+          onValueChange={itemValue => setSchool_id(itemValue)}
+        >
+          <Picker.Item label="Primaria" value="1" />
+          <Picker.Item label="Secundaria" value="2" />
+        </Picker>
 
         <Button
           title="Registrate"
