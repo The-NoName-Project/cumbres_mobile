@@ -151,7 +151,7 @@ export default function Questions({ navigation }) {
                 </ScrollView>
             ) : (
                 <View style={styles.container}>
-                    <Text style={styles.text}>Gracias por contestar las preguntas</Text>
+                    <Text style={styles.text}>Gracias por contestar las preguntas ✅</Text>
                 </View>
 
             )}
@@ -207,5 +207,10 @@ const styles = StyleSheet.create({
     input: {
         height: 0,
         width: 0,
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 })

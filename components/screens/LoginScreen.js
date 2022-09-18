@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  Button,
+  Alert,
   Text,
   TextInput,
   TouchableOpacity,
@@ -35,19 +35,31 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
         />
 
-        <Button
-          title="Login"
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
-            login(email, password);
-          }}
-        />
-
-        <View style={styles.dont}>
-          <Text style={{ fontWeight: 'bold' }}>¿No tienes cuenta? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.link}>Registrate</Text>
-          </TouchableOpacity>
-        </View>
+            //if que valida que los campos no esten vacios
+            if (email === null || password === null) {
+              Alert.alert('Error', 'Los campos no pueden estar vacios');
+            }
+            //if que valida que el correo sea valido
+            else if (
+              email.includes('@') === false ||
+              email.includes('.com') === false
+            ) {
+              Alert.alert('Error', 'El correo no es valido');
+            }
+            //if que valida que la contraseña tenga mas de 6 caracteres
+            else if (password.length < 6) {
+              Alert.alert('Error', 'La contraseña debe tener mas de 6 caracteres');
+            }
+            //si todo esta bien se hace la peticion a la api
+            else {
+              login(email, password);
+            }
+          }}>
+          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -78,6 +90,20 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 7,
+    fontWeight: 'bold',
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: 'blue',
+    paddingVertical: 14,
+    borderRadius: 5,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

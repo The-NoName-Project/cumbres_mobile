@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [res, setRes] = useState(false);
+  const [act, setAct] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
@@ -47,8 +48,8 @@ export const AuthProvider = ({ children }) => {
       })
       .then(res => {
         let userInfo = res.data;
-        console.log(userInfo);
         setUserInfo(userInfo);
+
         AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
         setIsLoading(false);
       })
@@ -77,7 +78,6 @@ export const AuthProvider = ({ children }) => {
       })
       .then(res => {
         let questions = res.data.message;
-        console.log(questions);
         setRes(true);
         AsyncStorage.setItem('questions', JSON.stringify(questions));
         setIsLoading(false);
@@ -89,6 +89,33 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
+  const activities = async (peopleone, peopletwo, scoreone, scoretwo, sport, visor) => {
+    setIsLoading(true);
+
+
+    axios
+      .post(BASE_URL + '/activities', {
+        peopleone,
+        peopletwo,
+        scoreone,
+        scoretwo,
+        sport,
+        visor,
+      }, {
+        headers: { Authorization: `Bearer ${userInfo.access_token}` },
+      })
+      .then(res => {
+        setIsLoading(false);
+        let activities = res.data.message;
+        setAct(true);
+        AsyncStorage.setItem('activities', JSON.stringify(activities));
+      })
+      .catch(e => {
+        console.log(`activities error ${e}`);
+        setAct(false);
+        setIsLoading(false);
+      });
+  };
 
   const logout = () => {
     setIsLoading(true);
@@ -133,6 +160,7 @@ export const AuthProvider = ({ children }) => {
         questions,
         res,
         logout,
+        activities,
       }}>
       {children}
     </AuthContext.Provider>
