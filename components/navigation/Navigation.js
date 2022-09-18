@@ -11,6 +11,7 @@ import Questions from '../screens/Questions';
 import DataUser from '../screens/DataUser';
 import Users from '../screens/UsersScreen';
 import ActivitiesScreen from '../screens/ActivitiesScreen';
+import Logout from '../screens/LogoutScrenn';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,25 +40,28 @@ const Navigation = () => {
             />
 
             {userInfo.user.role_id > 1 ? (
-              <Tab.Screen name="Questions" component={Questions}
-                options={{
-                  headerShown: false,
-                  tabBarLabel: 'Preguntas',
-                  tabBarIcon: ({ }) => (
-                    <Icon name="questioncircleo" color={'black'} size={15} />
-                  ),
-                }}
-              />
+              <>
+                <Tab.Screen name="Questions" component={Questions}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: 'Preguntas',
+                    tabBarIcon: ({ }) => (
+                      <Icon name="questioncircleo" color={'black'} size={15} />
+                    ),
+                  }}
+                />
+                <Tab.Screen name="DataUser" component={DataUser}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: 'Datos',
+                    tabBarIcon: ({ }) => (
+                      <Icon name="user" color={'black'} size={15} />
+                    ),
+                  }}
+                />
+              </>
             ) : null}
-            <Tab.Screen name="DataUser" component={DataUser}
-              options={{
-                headerShown: false,
-                tabBarLabel: 'Datos',
-                tabBarIcon: ({ }) => (
-                  <Icon name="user" color={'black'} size={15} />
-                ),
-              }}
-            />
+
             {userInfo.user.role_id === 1 ? (
               <>
                 <Tab.Screen name="AddUser" component={RegisterScreen}
@@ -66,6 +70,15 @@ const Navigation = () => {
                     tabBarLabel: 'Añadir Usuarios',
                     tabBarIcon: ({ }) => (
                       <Icon name="team" color={'black'} size={15} />
+                    ),
+                  }}
+                />
+                <Tab.Screen name="AllUser" component={Users}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: 'Todos los Usuarios',
+                    tabBarIcon: ({ }) => (
+                      <Icon name="user" color={'black'} size={15} />
                     ),
                   }}
                 />
@@ -80,6 +93,15 @@ const Navigation = () => {
                 />
               </>
             ) : null}
+            <Tab.Screen name="Logout" component={Logout}
+              options={{
+                headerShown: false,
+                tabBarLabel: 'Cerrar Sesión',
+                tabBarIcon: ({ }) => (
+                  <Icon name="logout" color={'black'} size={15} />
+                ),
+              }}
+            />
           </>
         ) :
           (

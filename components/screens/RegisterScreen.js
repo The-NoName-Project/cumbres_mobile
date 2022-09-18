@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  Button,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -10,6 +10,8 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
 import { Picker } from '@react-native-picker/picker';
+import axios from 'axios';
+import { BASE_URL } from '../config';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState(null);
@@ -19,84 +21,167 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
   const [school_id, setSchool_id] = useState(null);
   const [level_id, setLevel_id] = useState(null);
+  const [role_id, setRole_id] = useState(null);
+  const [getSchools, setGetSchools] = useState([]);
+  const [getLevels, setGetLevels] = useState([]);
+  const [getRoles, setGetRoles] = useState([]);
 
   const { isLoading, register } = useContext(AuthContext);
 
+  const getRole = () => {
+    axios.get(BASE_URL + '/role')
+      .then(function (response) {
+        let data = response.data;
+        setGetRoles(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const getSchool = () => {
+    axios.get(BASE_URL + '/school')
+      .then(function (response) {
+        let data = response.data;
+        setGetSchools(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const getLevel = () => {
+    axios.get(BASE_URL + '/level')
+      .then(function (response) {
+        let data = response.data;
+        setGetLevels(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getRole();
+    getSchool();
+    getLevel();
+  }, []);
+
+  const renderRole = () => {
+    return getRoles.map((role, index) => {
+      return (
+        <Picker.Item key={index} label={role.name} value={role.id} />
+      )
+    })
+  }
+
+  const renderSchool = () => {
+    return getSchools.map((school, index) => {
+      return (
+        <Picker.Item key={index} label={school.name} value={school.id} />
+      )
+    })
+  }
+
+  const renderLevel = () => {
+    return getLevels.map((level, index) => {
+      return (
+        <Picker.Item key={index} label={level.name} value={level.id} />
+      )
+    })
+  }
+
+  const data = {
+    name: name,
+    app: app,
+    apm: apm,
+    email: email,
+    password: password,
+    school_id: school_id,
+    level_id: level_id,
+    role_id: role_id,
+  }
+
   return (
-    <View style={styles.container}>
-      <Spinner visible={isLoading} />
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>Nombre (s)</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          placeholder="Inrtoduce tu nombre"
-          onChangeText={text => setName(text)}
-        />
-        <Text style={styles.label}>Apellido Paterno</Text>
-        <TextInput
-          style={styles.input}
-          value={app}
-          placeholder="Inrtoduce tu apellido paterno"
-          onChangeText={text => setApp(text)}
-        />
-        <Text style={styles.label}>Apellido Materno</Text>
-        <TextInput
-          style={styles.input}
-          value={apm}
-          placeholder="Inrtoduce tu apellido materno"
-          onChangeText={text => setApm(text)}
-        />
-        <Text style={styles.label}>Correo electrónico</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          placeholder="Inrtoduce tu Correo Electronico"
-          onChangeText={text => setEmail(text)}
-        />
-        <Text style={styles.label}>Contraseña</Text>
-        <TextInput
-          style={styles.input}
-          value={password}
-          placeholder="Inrtoduce tu Contraseña"
-          onChangeText={text => setPassword(text)}
-          secureTextEntry
-        />
-        <Picker
-          selectedValue={level_id}
-          style={{ height: 50, width: 150 }}
-          onValueChange={itemValue => setLevel_id(itemValue)}
-        >
-          <Picker.Item label="Atleta" value="1" />
-          <Picker.Item label="Administrador" value="2" />
-          <Picker.Item label="Estudiante" value="3" />
-          <Picker.Item label="Escuelas" value="4" />
-        </Picker>
+    <ScrollView
+      style={styles.scroll}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <View style={styles.container}>
+        <Spinner visible={isLoading} />
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>Nombre (s)</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            placeholder="Introduce tu nombre"
+            onChangeText={text => setName(text)}
+          />
+          <Text style={styles.label}>Apellido Paterno</Text>
+          <TextInput
+            style={styles.input}
+            value={app}
+            placeholder="Introduce tu apellido paterno"
+            onChangeText={text => setApp(text)}
+          />
+          <Text style={styles.label}>Apellido Materno</Text>
+          <TextInput
+            style={styles.input}
+            value={apm}
+            placeholder="Introduce tu apellido materno"
+            onChangeText={text => setApm(text)}
+          />
+          <Text style={styles.label}>Correo electrónico</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            placeholder="Introduce tu Correo Electronico"
+            onChangeText={text => setEmail(text)}
+          />
+          <Text style={styles.label}>Contraseña</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            placeholder="Introduce tu Contraseña"
+            onChangeText={text => setPassword(text)}
+            secureTextEntry
+          />
+          <Text style={styles.label}>Nivel</Text>
+          <Picker
+            selectedValue={level_id}
+            style={{ height: 50, width: 300 }}
+            onValueChange={itemValue => setLevel_id(itemValue)}
+          >
+            <Picker.Item label="Selecciona el Nivel" value="" />
+            {renderLevel()}
+          </Picker>
+          <Text style={styles.label}>Escuela</Text>
+          <Picker
+            selectedValue={school_id}
+            style={{ height: 50, width: 300 }}
+            onValueChange={itemValue => setSchool_id(itemValue)}
+          >
+            <Picker.Item label="Selecciona la Escuela" value="" />
+            {renderSchool()}
+          </Picker>
+          <Text style={styles.label}>Rol</Text>
+          <Picker
+            selectedValue={role_id}
+            style={{ height: 50, width: 300 }}
+            onValueChange={itemValue => setRole_id(itemValue)}
+          >
+            <Picker.Item label="Selecciona el Rol" value="" />
+            {renderRole()}
+          </Picker>
 
-        <Picker
-          selectedValue={school_id}
-          style={{ height: 50, width: 150 }}
-          onValueChange={itemValue => setSchool_id(itemValue)}
-        >
-          <Picker.Item label="Primaria" value="1" />
-          <Picker.Item label="Secundaria" value="2" />
-        </Picker>
 
-        <Button
-          title="Registrate"
-          onPress={() => {
-            register(name, email, password, app, apm);
-          }}
-        />
-
-        <View style={{ flexDirection: 'row', marginTop: 20 }}>
-          <Text>¿Ya tienes cuenta? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.link}> Inicia Sesion</Text>
+          <TouchableOpacity style={styles.button} onPress={() => register(name, app, apm, school_id, level_id, email, password, role_id)}>
+            <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
+
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -123,6 +208,24 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     fontWeight: 'bold',
   },
+  button: {
+    backgroundColor: '#000',
+    paddingVertical: 14,
+    borderRadius: 5,
+    marginTop: 14,
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  contentContainer: {
+    paddingTop: 30,
+  },
+  scroll: {
+    backgroundColor: '#fff',
+  },
+
 });
 
 export default RegisterScreen;

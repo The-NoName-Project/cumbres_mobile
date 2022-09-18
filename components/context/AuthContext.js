@@ -7,12 +7,12 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [res, setRes] = useState(false);
-  const [act, setAct] = useState(false);
+  const [act, setAct] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
-  const register = (name, app, apm, school_id, level_id, email, password) => {
+  const register = (name, app, apm, school_id, level_id, email, password, role_id) => {
     setIsLoading(true);
 
     axios.post(BASE_URL + '/register', {
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       app,
       apm,
       school_id,
-      role_id: 2,
+      role_id,
       level_id,
       email,
       password,
@@ -89,26 +89,24 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const activities = async (peopleone, peopletwo, scoreone, scoretwo, sport, visor) => {
+  const activities = (peopleone, peopletwo, sport, visor, scoreone, scoretwo) => {
     setIsLoading(true);
-
-
     axios
       .post(BASE_URL + '/activities', {
         peopleone,
         peopletwo,
-        scoreone,
-        scoretwo,
         sport,
         visor,
+        scoreone,
+        scoretwo,
       }, {
         headers: { Authorization: `Bearer ${userInfo.access_token}` },
       })
       .then(res => {
+        let act = res.data.message;
+        console.log(act);
+        setAct(act);
         setIsLoading(false);
-        let activities = res.data.message;
-        setAct(true);
-        AsyncStorage.setItem('activities', JSON.stringify(activities));
       })
       .catch(e => {
         console.log(`activities error ${e}`);
@@ -161,6 +159,7 @@ export const AuthProvider = ({ children }) => {
         res,
         logout,
         activities,
+        act
       }}>
       {children}
     </AuthContext.Provider>

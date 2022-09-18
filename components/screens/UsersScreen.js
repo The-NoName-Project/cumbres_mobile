@@ -13,22 +13,6 @@ export default function Users({ navigation }) {
     const { userInfo, isLoading } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
 
-    //remplaza el tipo de usuario por su nombre
-    const replaceType = (type) => {
-        switch (type) {
-            case 1:
-                return "Administrador";
-            case 2:
-                return "Visor";
-            case 3:
-                return "Supervisor";
-            case 4:
-                return "Alumno";
-            default:
-                return "Desconocido";
-        }
-    }
-
     const createAt = (date) => {
         const d = new Date(date);
         return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
@@ -60,9 +44,6 @@ export default function Users({ navigation }) {
                 <View style={styles.container}>
                     <Spinner visible={isLoading} />
                     <Text style={styles.welcome}>Información del Usuario 👤</Text>
-                    <TouchableOpacity style={styles.button} onPress={() => adduser()}>
-                        <Text style={styles.buttonText}>Añadir usuario</Text>
-                    </TouchableOpacity>
                     {users.map((user, index) => (
                         <View key={index} style={styles.card}>
                             <Text style={styles.text}>Nombre: {user.name} {user.app} {user.apm}</Text>
@@ -70,14 +51,14 @@ export default function Users({ navigation }) {
                             {user.school_id === null ? (
                                 <Text style={styles.text}>Escuela: No asignada ❌</Text>
                             ) : (
-                                <Text style={styles.text}>Escuela: {user.school_id}</Text>
+                                <Text style={styles.text}>Escuela: {user.school.name}</Text>
                             )}
                             {user.level_id === null ? (
                                 <Text style={styles.text}>Nivel de competicion: No asignado ❌</Text>
                             ) : (
-                                <Text style={styles.text}>Nivel de competicion: {user.level_id}</Text>
+                                <Text style={styles.text}>Nivel de competicion: {user.level.name}</Text>
                             )}
-                            <Text style={styles.text}>Tipo de usuario: {replaceType(user.role_id)}</Text>
+                            <Text style={styles.text}>Tipo de usuario: {user.role.name}</Text>
                             <Text style={styles.text}>Creado el: {createAt(user.created_at)} a las {time(user.created_at)}</Text>
                             <Text style={styles.text}>Actualizado el: {createAt(user.created_at)} a las {time(user.created_at)}</Text>
 

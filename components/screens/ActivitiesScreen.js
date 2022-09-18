@@ -91,40 +91,71 @@ export default function ActivitiesScreen() {
         })
     }
 
+
+    const data = {
+        peopleone: peopleone,
+        peopletwo: peopletwo,
+        visor: visor,
+        sport: sport,
+        scoreone: scoreone,
+        scoretwo: scoretwo
+    }
+
+    const submit = () => {
+        setIsLoading(true);
+        axios.post(BASE_URL + '/activities', data,
+            {
+                headers: { Authorization: `Bearer ${userInfo.access_token}` },
+            })
+            .then(function (response) {
+                let act = response.data.message;
+                console.log(act);
+                setIsLoading(false);
+                Alert.alert('Actividad registrada');
+            })
+            .catch(function (error) {
+                console.log(error);
+                setIsLoading(false);
+            });
+    }
+
     return (
         <ScrollView style={styles.scroll}>
             <View style={styles.container}>
                 <Spinner visible={isLoading} />
                 <Text style={styles.title}>Crear Actividades</Text>
                 <Text></Text>
-                <Text style={styles.text}>Nombre del deporte</Text>
+                <Text style={styles.text}>Nombre del deporte 🏅</Text>
                 <Picker
                     selectedValue={sport}
                     style={styles.picker}
                     mode="dropdown"
                     onValueChange={(itemValue, itemIndex) => setSport(itemValue)}
                 >
+                    <Picker.Item label="Selecciona un deporte" value="" />
                     {renderSport()}
                 </Picker>
-                <Text style={styles.text}>Jugador 1</Text>
+                <Text style={styles.text}>Jugador 1 🏃‍♂️</Text>
                 <Picker
                     selectedValue={peopleone}
                     style={styles.picker}
                     mode="dropdown"
                     onValueChange={(itemValue, itemIndex) => setPeopleOne(itemValue)}
                 >
+                    <Picker.Item label="Selecciona un jugador" value="" />
                     {renderPeople1()}
                 </Picker>
-                <Text style={styles.text}>Jugador 2</Text>
+                <Text style={styles.text}>Jugador 2 🏃‍♀️</Text>
                 <Picker
                     selectedValue={peopletwo}
                     mode="dropdown"
                     style={styles.picker}
                     onValueChange={(itemValue, itemIndex) => setPeopleTwo(itemValue)}
                 >
+                    <Picker.Item label="Selecciona un jugador" value="" />
                     {renderPeople2()}
                 </Picker>
-                <Text style={styles.text}>Puntuación jugador 1</Text>
+                <Text style={styles.text}>Puntuación jugador 1 #️⃣</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={text => setScoreone(text)}
@@ -132,7 +163,7 @@ export default function ActivitiesScreen() {
                     placeholder="Puntuación jugador 1"
                     keyboardType="numeric"
                 />
-                <Text style={styles.text}>Puntuación jugador 2</Text>
+                <Text style={styles.text}>Puntuación jugador 2 #️⃣</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={text => setScoretwo(text)}
@@ -140,13 +171,14 @@ export default function ActivitiesScreen() {
                     placeholder="Puntuación jugador 2"
                     keyboardType="numeric"
                 />
-                <Text style={styles.text}>Visor</Text>
+                <Text style={styles.text}>Visor ⭐</Text>
                 <Picker
                     selectedValue={visor}
                     style={styles.picker}
                     mode="dropdown"
                     onValueChange={(itemValue, itemIndex) => setVisor(itemValue)}
                 >
+                    <Picker.Item label="Selecciona un visor" value="" />
                     {renderVisor()}
                 </Picker>
                 <TouchableOpacity style={styles.button} onPress={() => {
@@ -160,7 +192,8 @@ export default function ActivitiesScreen() {
                         Alert.alert('Debes llenar todos los campos');
                     }
                     else {
-                        activities(sport, peopleone, peopletwo, scoreone, scoretwo, visor);
+                        //activities(sport, peopleone, peopletwo, scoreone, scoretwo, visor);
+                        submit(sport, peopleone, peopletwo, scoreone, scoretwo, visor);
                     }
                 }}>
                     <Text style={styles.buttonText}>Crear</Text>
