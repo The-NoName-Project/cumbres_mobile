@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Logout() {
     const { logout } = useContext(AuthContext);
     return (
         <View style={style.container}>
+            <Image source={require('../assets/torneo.png')} style={style.image} />
             <Text style={style.alert}>¿Estás seguro de que quieres cerrar sesión?</Text>
             <TouchableOpacity onPress={() => {
                 Alert.alert(
@@ -48,5 +49,10 @@ const style = StyleSheet.create({
     text: {
         color: 'white',
         fontSize: 20,
-    }
+    },
+    image: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+    },
 });

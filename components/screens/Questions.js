@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, TextInput } from "react-native"
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, TextInput, Image } from "react-native"
 import { Picker } from '@react-native-picker/picker'
 import { AuthContext } from "../context/AuthContext";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -19,8 +19,12 @@ export default function Questions({ navigation }) {
 
     //si se presiona el boton de enviar regresa a la pantalla de inicio
     const handlePress = () => {
-        questions(q1, q2, q3, q4, q5, q6, q7, q8, id);
-        navigation.navigate('Home');
+        if (q1 == null || q2 == null || q3 == null || q4 == null || q5 == null || q6 == null || q7 == null || q8 == null) {
+            Alert.alert("Error", "Por favor contesta todas las preguntas");
+        } else {
+            questions(q1, q2, q3, q4, q5, q6, q7, q8, id);
+            navigation.navigate('Home');
+        }
     }
 
     return (
@@ -28,6 +32,7 @@ export default function Questions({ navigation }) {
             {res === false ? (
                 <ScrollView style={styles.scroll}>
                     <View style={styles.container}>
+                        <Image source={require('../assets/torneo.png')} style={styles.image} />
                         <Spinner visible={isLoading} />
                         <Text style={styles.label}>1.- ¿Se reunió el Colegio para hacer una oración antes del juego?</Text>
                         <Picker
@@ -151,6 +156,7 @@ export default function Questions({ navigation }) {
                 </ScrollView>
             ) : (
                 <View style={styles.container}>
+                    <Image source={require('../assets/torneo.png')} style={styles.image} />
                     <Text style={styles.text}>Gracias por contestar las preguntas ✅</Text>
                 </View>
 
@@ -212,5 +218,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-    }
+    },
+    image: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+    },
 })

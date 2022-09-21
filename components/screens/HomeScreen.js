@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, ScrollView, Alert, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -11,25 +11,36 @@ const HomeScreen = ({ navigation }) => {
   const { userInfo, isLoading, logout, res } = useContext(AuthContext);
   const admin = userInfo.user.role_id === 1 ? true : false;
   const [data, setData] = useState([]);
+  const [load, setLoad] = useState(false);
 
-  axios.get(BASE_URL + '/activities',
-    {
-      headers: { Authorization: `Bearer ${userInfo.access_token}` },
-    })
-    .then(function (response) {
-      let data = response.data;
-      setData(data);
-      AsyncStorage.setItem('data', JSON.stringify(data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  const getActivities = () => {
+    setLoad(true);
+    axios.get(BASE_URL + '/activities',
+      {
+        headers: { Authorization: `Bearer ${userInfo.access_token}` },
+      })
+      .then(function (response) {
+        let data = response.data;
+        setData(data);
+        setLoad(false);
+        AsyncStorage.setItem('data', JSON.stringify(data));
+      })
+      .catch(function (error) {
+        console.log(error);
+        setLoad(false);
+      });
+  }
 
+  useEffect(() => {
+    getActivities();
+  }, []);
 
   return (
     <ScrollView style={styles.scroll}>
       <View style={styles.container}>
+        <Image style={styles.image} source={require('../assets/torneo.png')} />
         <Spinner visible={isLoading} />
+        <Spinner visible={load} />
         <Text style={styles.welcome}>Bienvenido de Nuevo</Text>
         <Text style={styles.welcome}>{userInfo.user.name} {userInfo.user.app} {userInfo.user.apm}</Text>
         {admin === true ? (
@@ -164,7 +175,10 @@ const styles = StyleSheet.create({
     margin: 20
   },
   welcome: {
-    fontSize: 18,
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    fontWeight: 'bold',
     marginBottom: 8,
   },
   logout: {
@@ -218,6 +232,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     margin: 20,
     paddingVertical: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  image: {
+    height: 100,
+    resizeMode: 'contain',
   },
 });
 

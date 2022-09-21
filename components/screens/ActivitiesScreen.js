@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, ScrollView, TextInput, Alert } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, ScrollView, TextInput, Alert, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
 import { Picker } from '@react-native-picker/picker'
@@ -121,6 +121,7 @@ export default function ActivitiesScreen() {
 
     return (
         <ScrollView style={styles.scroll}>
+            <Image style={styles.logo} source={require('../assets/torneo.png')} />
             <View style={styles.container}>
                 <Spinner visible={isLoading} />
                 <Text style={styles.title}>Crear Actividades</Text>
@@ -198,6 +199,8 @@ export default function ActivitiesScreen() {
                 }}>
                     <Text style={styles.buttonText}>Crear</Text>
                 </TouchableOpacity>
+                <Text></Text>
+                <Text></Text>
             </View>
         </ScrollView>
     );
@@ -218,14 +221,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000',
         textAlign: 'center',
-        marginTop: 20,
     },
     text: {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#000',
         textAlign: 'left',
-        marginTop: 20,
+
     },
     input: {
         height: 40,
@@ -247,12 +249,17 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 20,
         width: 300,
-        backgroundColor: '#000',
+        backgroundColor: '#ff3238',
     },
     buttonText: {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#fff',
         textAlign: 'center',
+    },
+    logo: {
+        resizeMode: 'contain',
+        width: 200,
+        alignSelf: 'center',
     },
 });

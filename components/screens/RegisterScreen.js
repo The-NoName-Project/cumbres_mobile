@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
   ScrollView,
   Text,
+  Image,
   TextInput,
   TouchableOpacity,
   View,
@@ -25,39 +26,48 @@ const RegisterScreen = ({ navigation }) => {
   const [getSchools, setGetSchools] = useState([]);
   const [getLevels, setGetLevels] = useState([]);
   const [getRoles, setGetRoles] = useState([]);
-
+  const [load, setLoad] = useState(false);
   const { isLoading, register } = useContext(AuthContext);
 
   const getRole = () => {
+    setLoad(true);
     axios.get(BASE_URL + '/role')
       .then(function (response) {
         let data = response.data;
         setGetRoles(data);
+        setLoad(false);
       })
       .catch(function (error) {
         console.log(error);
+        setLoad(false);
       });
   }
 
   const getSchool = () => {
+    setLoad(true);
     axios.get(BASE_URL + '/school')
       .then(function (response) {
         let data = response.data;
         setGetSchools(data);
+        setLoad(false);
       })
       .catch(function (error) {
         console.log(error);
+        setLoad(false);
       });
   }
 
   const getLevel = () => {
+    setLoad(true);
     axios.get(BASE_URL + '/level')
       .then(function (response) {
         let data = response.data;
         setGetLevels(data);
+        setLoad(false);
       })
       .catch(function (error) {
         console.log(error);
+        setLoad(false);
       });
   }
 
@@ -107,8 +117,10 @@ const RegisterScreen = ({ navigation }) => {
       style={styles.scroll}
       contentContainerStyle={styles.contentContainer}
     >
+      <Image source={require('../assets/torneo.png')} style={styles.logo} />
       <View style={styles.container}>
         <Spinner visible={isLoading} />
+        <Spinner visible={load} />
         <View style={styles.wrapper}>
           <Text style={styles.label}>Nombre (s)</Text>
           <TextInput
@@ -178,7 +190,7 @@ const RegisterScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.button} onPress={() => register(name, app, apm, school_id, level_id, email, password, role_id)}>
             <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
-
+          <Text></Text>
         </View>
       </View>
     </ScrollView>
@@ -190,6 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    margin: -10
   },
   wrapper: {
     width: '80%',
@@ -209,7 +222,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    backgroundColor: '#000',
+    backgroundColor: '#ff3238',
     paddingVertical: 14,
     borderRadius: 5,
     marginTop: 14,
@@ -225,7 +238,11 @@ const styles = StyleSheet.create({
   scroll: {
     backgroundColor: '#fff',
   },
-
+  logo: {
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    width: 330,
+  },
 });
 
 export default RegisterScreen;

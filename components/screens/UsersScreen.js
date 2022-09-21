@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import Error404 from "../error/404";
 import axios from "axios";
@@ -12,6 +12,7 @@ export default function Users({ navigation }) {
 
     const { userInfo, isLoading } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
+    const [load, setLoad] = useState(false);
 
     const createAt = (date) => {
         const d = new Date(date);
@@ -25,24 +26,35 @@ export default function Users({ navigation }) {
 
 
     //hace la petición a la api para obtener los datos del usuario
-    axios.get(BASE_URL + '/all-users',
-        {
-            headers: { Authorization: `Bearer ${userInfo.access_token}` },
-        })
-        .then(function (response) {
-            let users = response.data;
-            setUsers(users);
-            AsyncStorage.setItem('users', JSON.stringify(users));
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    const getUser = () => {
+        setLoad(true);
+        axios.get(BASE_URL + '/all-users',
+            {
+                headers: { Authorization: `Bearer ${userInfo.access_token}` },
+            })
+            .then(function (response) {
+                let users = response.data;
+                setUsers(users);
+                AsyncStorage.setItem('users', JSON.stringify(users));
+                setLoad(false);
+            })
+            .catch(function (error) {
+                console.log(error);
+                setLoad(false);
+            });
+    }
+
+    useEffect(() => {
+        getUser();
+    }, []);
 
     return (
         <ScrollView>
             {userInfo.user.role_id === 1 ? (
                 <View style={styles.container}>
                     <Spinner visible={isLoading} />
+                    <Spinner visible={load} />
+                    <Image style={styles.image} source={require('../assets/torneo.png')} />
                     <Text style={styles.welcome}>Información del Usuario 👤</Text>
                     {users.map((user, index) => (
                         <View key={index} style={styles.card}>
@@ -135,6 +147,10 @@ const styles = StyleSheet.create({
     sub: {
         fontSize: 18,
         marginBottom: 8,
+    },
+    image: {
+        width: 330,
+        resizeMode: 'contain',
     },
 });
 

@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { AuthContext } from "../context/AuthContext";
-import Error404 from "../error/404";
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function DataUser() {
@@ -19,6 +18,7 @@ export default function DataUser() {
     return (
 
         <View style={styles.container}>
+            <Image source={require('../assets/torneo.png')} style={styles.image} />
             <Text style={styles.welcome}>Información del Usuario 👤</Text>
             <Text></Text>
             <Text></Text>
@@ -117,5 +117,10 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         margin: 10,
         fontWeight: '600',
-    }
+    },
+    image: {
+        width: 330,
+        height: 200,
+        resizeMode: 'contain',
+    },
 });

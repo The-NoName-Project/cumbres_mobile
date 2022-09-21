@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image,
+  ImageBackground
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
@@ -19,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
+        <Image source={require('../assets/torneo.png')} style={styles.image} />
         <Text style={styles.label}>Correo electrónico</Text>
         <TextInput
           style={styles.input}
@@ -77,12 +80,12 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#bbb',
+    borderColor: '#347eff',
     borderRadius: 5,
     paddingHorizontal: 14,
   },
   link: {
-    color: 'blue',
+    color: '#347eff',
   },
   dont: {
     flexDirection: 'row',
@@ -91,10 +94,11 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 7,
     fontWeight: 'bold',
+    fontSize: 18,
   },
   button: {
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#ffcd34',
     paddingVertical: 14,
     borderRadius: 5,
     alignContent: 'center',
@@ -102,10 +106,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'italic',
   },
+  image: {
+    // height: 250,
+    width: 330,
+    resizeMode: 'contain',
+  },
+  img: {
+    height: 250,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default LoginScreen;
