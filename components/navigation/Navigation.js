@@ -12,6 +12,7 @@ import DataUser from '../screens/DataUser';
 import Users from '../screens/UsersScreen';
 import ActivitiesScreen from '../screens/ActivitiesScreen';
 import Logout from '../screens/LogoutScrenn';
+import Graphic from '../screens/Graphic';
 
 const Tab = createBottomTabNavigator();
 
@@ -79,6 +80,15 @@ const Navigation = () => {
                     tabBarLabel: 'Todos los Usuarios',
                     tabBarIcon: ({ }) => (
                       <Icon name="user" color={'black'} size={15} />
+                    ),
+                  }}
+                />
+                <Tab.Screen name="Grafica" component={Graphic}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: 'Gráfica',
+                    tabBarIcon: ({ }) => (
+                      <Icon name="linechart" color={'black'} size={15} />
                     ),
                   }}
                 />
