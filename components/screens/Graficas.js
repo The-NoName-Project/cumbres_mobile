@@ -15,9 +15,19 @@ export default function Graphic() {
     const [total, setTotal] = useState([]);
     const [loading, setLoading] = useState(true);
     const [pick, setPick] = useState(false);
+    const [school, setSchool] = useState([]);
 
     const data = {
         labels: name,
+        datasets: [
+            {
+                data: total
+            }
+        ]
+    };
+
+    const schoolData = {
+        labels: school,
         datasets: [
             {
                 data: total
@@ -35,17 +45,24 @@ export default function Graphic() {
         axios.get('https://the-noname-project.herokuapp.com/api/question/all')
             .then(response => {
                 var respuesta = response.data;
-                var auxTotal = [], auxName = [];
+                var auxTotal = [], auxName = [], auxSchool = [];
                 respuesta.map(elemento => {
-                    //añade el numero 0 para que el grafico no se vea tan pequeño
+                    //añade el numero 0 al arreglo auxTotal 
                     const aux = 0;
+                    const tot = aux + elemento.total
                     //crea un array con el total de votos
-                    auxTotal.push(aux + elemento.total);
-                    const name = elemento.user_id.name + " " + elemento.user_id.app + " " + elemento.user_id.apm;
+                    auxTotal.push(tot);
+                    //recupera el apellido y solo guarda la primera letra
+                    const apm = elemento.user_id.apm.charAt(0);
+                    const name = elemento.user_id.name + " " + elemento.user_id.app + " " + apm;
                     auxName.push(name);
+                    //si el campo es igual a null, se guarda un string vacio
+                    const school = elemento.user_id.school_id === null ? "No hay registro" : elemento.user_id.school_id.name;
+                    auxSchool.push(school);
                 });
                 setTotal(auxTotal);
                 setName(auxName);
+                setSchool(auxSchool);
                 setLoading(false);
             })
             .catch(error => {
@@ -94,7 +111,7 @@ export default function Graphic() {
                 </Picker>
             </View>
             <View style={styles.conta}>
-                {pick === null ? <Text style={styles.welcome}>Para visualizar una grafica seleccione una opción</Text> :
+                {/* {pick === null ? <Text style={styles.welcome}>Para visualizar una grafica seleccione una opción</Text> :
                     pick === true ?
                         <LineChart
                             data={data}
@@ -113,7 +130,7 @@ export default function Graphic() {
                         />
                         :
                         <LineChart
-                            data={data}
+                            data={schoolData}
                             width={screenWidth}
                             height={220}
                             yAxisLabel=""
@@ -127,7 +144,7 @@ export default function Graphic() {
                             }}
                             {...opciones}
                         />
-                }
+                } */}
             </View>
 
         </SafeAreaView>
