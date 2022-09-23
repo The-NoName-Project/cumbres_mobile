@@ -83,8 +83,6 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.text}>Nombre: {user.visor.name} {user.visor.app} {user.visor.apm}</Text>
                 <Text style={styles.title}>Deporte</Text>
                 <Text style={styles.text}>Nombre: {user.sport.name}</Text>
-                <Text style={styles.title}>Fecha</Text>
-                <Text style={styles.text}>Fecha: {user.date}</Text>
               </View>
             ))}
           </>
@@ -135,8 +133,6 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.text}>Nombre: {user.visor.name} {user.visor.app} {user.visor.apm}</Text>
                 <Text style={styles.title}>Deporte</Text>
                 <Text style={styles.text}>Nombre: {user.sport.name}</Text>
-                <Text style={styles.title}>Fecha</Text>
-                <Text style={styles.text}>Fecha: {user.date}</Text>
               </View>
             ))}
           </>

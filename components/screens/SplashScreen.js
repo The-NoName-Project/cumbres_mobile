@@ -13,7 +13,7 @@ const style = StyleSheet.create({
   con: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#06bcee',
+    backgroundColor: '#347eff',
   },
 });
 
