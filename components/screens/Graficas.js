@@ -4,9 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Dimensions } from "react-native";
 import axios from 'axios';
-import {
-    LineChart,
-} from "react-native-chart-kit";
+import { Chart, Line, Area, HorizontalAxis, VerticalAxis } from 'react-native-responsive-linechart'
 import { Picker } from "@react-native-picker/picker";
 
 export default function Graphic() {
@@ -16,29 +14,6 @@ export default function Graphic() {
     const [loading, setLoading] = useState(true);
     const [pick, setPick] = useState(false);
     const [school, setSchool] = useState([]);
-
-    const data = {
-        labels: name,
-        datasets: [
-            {
-                data: total
-            }
-        ]
-    };
-
-    const schoolData = {
-        labels: school,
-        datasets: [
-            {
-                data: total
-            }
-        ]
-    };
-
-    const opciones = {
-        maintainAspectRatio: false,
-        responsive: true
-    }
 
     const peticionApi = () => {
         setLoading(true);
@@ -75,19 +50,6 @@ export default function Graphic() {
         peticionApi();
     }, []);
 
-    const chartConfig = {
-        backgroundGradientFrom: "#347eff",
-        backgroundGradientFromOpacity: 80,
-        backgroundGradientTo: "#ffcd34", //Parte de atrás de la gráfica
-        backgroundGradientToOpacity: 1.3,
-        //color: (opacity = 1) => `rgba(5, 5, 5, ${opacity})`,
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        strokeWidth: 6, // optional, default 3, en line chart es para resaltar la línea pendiente
-        barPercentage: 1.0, //Grosor de las barras
-        useShadowColorFromDataset: false // optional
-    };
-
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.conta}>
@@ -97,7 +59,10 @@ export default function Graphic() {
                     textStyle={styles.spinnerTextStyle}
                 />
                 <Image style={styles.image} source={require('../assets/torneo.png')} />
-                <Text style={styles.welcome}>Puntuación obtenida Individual</Text>
+                <Text style={styles.welcome}>Puntuación obtenida
+                    {pick === null ? <Text></Text> :
+                        pick === true ? <Text> por usuario</Text> : <Text> por escuela</Text>}
+                </Text>
                 <Picker
                     selectedValue={pick}
                     mode="dropdown"
@@ -111,40 +76,44 @@ export default function Graphic() {
                 </Picker>
             </View>
             <View style={styles.conta}>
-                {/* {pick === null ? <Text style={styles.welcome}>Para visualizar una grafica seleccione una opción</Text> :
+                {pick === null ? <Text style={styles.welcome}>Para visualizar una grafica seleccione una opción</Text> :
                     pick === true ?
-                        <LineChart
-                            data={data}
-                            width={screenWidth}
-                            height={220}
-                            yAxisLabel=""
-                            yAxisSuffix=""
-                            yAxisInterval={1} // optional, defaults to 1
-                            chartConfig={chartConfig}
-                            bezier
-                            style={{
-                                marginVertical: 8,
-                                borderRadius: 16
-                            }}
-                            {...opciones}
-                        />
+                        <Chart
+                            style={{ height: 200, width: 400 }}
+                            data={[
+                                { x: 0, y: 0 },
+                                //recorre el arreglo de total y lo asigna a y
+                                ...total.map((y, x) => ({ x, y })),
+                                { x: total.length, y: 0 },
+                            ]}
+                            padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
+                            xDomain={{ min: -1, max: total.length }}
+                            yDomain={{ min: 0, max: 20 }}
+                        >
+                            <VerticalAxis tickCount={11} theme={{ labels: { formatter: (v) => v.toFixed(2) } }} />
+                            <HorizontalAxis tickCount={5} />
+                            <Area theme={{ gradient: { from: { color: '#347eff' }, to: { color: '#347eff', opacity: 0.4 } } }} />
+                            <Line theme={{ stroke: { color: '#347eff', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
+                        </Chart>
                         :
-                        <LineChart
-                            data={schoolData}
-                            width={screenWidth}
-                            height={220}
-                            yAxisLabel=""
-                            yAxisSuffix=""
-                            yAxisInterval={1} // optional, defaults to 1
-                            chartConfig={chartConfig}
-                            bezier
-                            style={{
-                                marginVertical: 8,
-                                borderRadius: 16
-                            }}
-                            {...opciones}
-                        />
-                } */}
+                        <Chart
+                            style={{ height: 200, width: 400 }}
+                            data={[
+                                { x: 0, y: 0 },
+                                //recorre el arreglo de total y lo asigna a y
+                                ...total.map((y, x) => ({ x, y })),
+                                { x: total.length, y: 0 },
+                            ]}
+                            padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
+                            xDomain={{ min: -1, max: total.length }}
+                            yDomain={{ min: 0, max: 20 }}
+                        >
+                            <VerticalAxis tickCount={11} theme={{ labels: { formatter: (v) => v.toFixed(2) } }} />
+                            <HorizontalAxis tickCount={5} />
+                            <Area theme={{ gradient: { from: { color: '#ffa502' }, to: { color: '#ffa502', opacity: 0.4 } } }} />
+                            <Line theme={{ stroke: { color: '#ffa502', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
+                        </Chart>
+                }
             </View>
 
         </SafeAreaView>
