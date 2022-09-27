@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Dimensions } from "react-native";
 import axios from 'axios';
-import { Chart, Line, Area, HorizontalAxis, VerticalAxis } from 'react-native-responsive-linechart'
+import { Chart, Line, Area, HorizontalAxis, VerticalAxis, Tooltip } from 'react-native-responsive-linechart'
 import { Picker } from "@react-native-picker/picker";
 
 export default function Graphic() {
@@ -79,7 +79,7 @@ export default function Graphic() {
                 {pick === null ? <Text style={styles.welcome}>Para visualizar una grafica seleccione una opción</Text> :
                     pick === true ?
                         <Chart
-                            style={{ height: 200, width: 400 }}
+                            style={{ height: 300, width: 400 }}
                             data={[
                                 { x: 0, y: 0 },
                                 //recorre el arreglo de total y lo asigna a y
@@ -88,16 +88,16 @@ export default function Graphic() {
                             ]}
                             padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
                             xDomain={{ min: -1, max: total.length }}
-                            yDomain={{ min: 0, max: 20 }}
+                            yDomain={{ min: 0, max: 25 }}
                         >
                             <VerticalAxis tickCount={11} theme={{ labels: { formatter: (v) => v.toFixed(2) } }} />
                             <HorizontalAxis tickCount={5} />
                             <Area theme={{ gradient: { from: { color: '#347eff' }, to: { color: '#347eff', opacity: 0.4 } } }} />
-                            <Line theme={{ stroke: { color: '#347eff', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
+                            <Line tooltipComponent={<Tooltip />} theme={{ stroke: { color: '#347eff', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
                         </Chart>
                         :
                         <Chart
-                            style={{ height: 200, width: 400 }}
+                            style={{ height: 300, width: 400 }}
                             data={[
                                 { x: 0, y: 0 },
                                 //recorre el arreglo de total y lo asigna a y
@@ -106,12 +106,12 @@ export default function Graphic() {
                             ]}
                             padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
                             xDomain={{ min: -1, max: total.length }}
-                            yDomain={{ min: 0, max: 20 }}
+                            yDomain={{ min: 0, max: 25 }}
                         >
                             <VerticalAxis tickCount={11} theme={{ labels: { formatter: (v) => v.toFixed(2) } }} />
                             <HorizontalAxis tickCount={5} />
                             <Area theme={{ gradient: { from: { color: '#ffa502' }, to: { color: '#ffa502', opacity: 0.4 } } }} />
-                            <Line theme={{ stroke: { color: '#ffa502', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
+                            <Line tooltipComponent={<Tooltip />} theme={{ stroke: { color: '#ffa502', width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
                         </Chart>
                 }
             </View>
