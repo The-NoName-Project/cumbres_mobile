@@ -12,13 +12,14 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
-  const register = (name, app, apm, school_id, level_id, email, password, role_id) => {
+  const register = (name, app, apm, gender, school_id, level_id, email, password, role_id) => {
     setIsLoading(true);
 
     axios.post(BASE_URL + '/register', {
       name,
       app,
       apm,
+      gender,
       school_id,
       role_id,
       level_id,
@@ -115,6 +116,11 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
+
+  const setResFalse = (res) => {
+    setRes(res);
+  };
+
   const logout = () => {
     setIsLoading(true);
     AsyncStorage.removeItem('userInfo');
@@ -159,7 +165,8 @@ export const AuthProvider = ({ children }) => {
         res,
         logout,
         activities,
-        act
+        act,
+        setResFalse,
       }}>
       {children}
     </AuthContext.Provider>

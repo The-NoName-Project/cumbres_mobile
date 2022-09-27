@@ -7,7 +7,7 @@ import {
   View,
   StyleSheet,
   Image,
-  ImageBackground
+  ScrollView
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
@@ -18,57 +18,70 @@ const LoginScreen = ({ navigation }) => {
   const { isLoading, login } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
-      <Spinner visible={isLoading} />
-      <View style={styles.wrapper}>
-        <Image source={require('../assets/torneo.png')} style={styles.image} />
-        <Text style={styles.label}>Correo electrónico</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          placeholder="Introduce tu Correo Electronico"
-          onChangeText={text => setEmail(text)}
-        />
-        <Text style={styles.label}>Contraseña</Text>
-        <TextInput
-          style={styles.input}
-          value={password}
-          placeholder="Introduce tu Contraseña"
-          onChangeText={text => setPassword(text)}
-          secureTextEntry
-        />
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            //if que valida que los campos no esten vacios
-            if (email === null || password === null) {
-              Alert.alert('Error', 'Los campos no pueden estar vacios');
-            }
-            //if que valida que el correo sea valido
-            else if (
-              email.includes('@') === false ||
-              email.includes('.com') === false
-            ) {
-              Alert.alert('Error', 'El correo no es valido');
-            }
-            //if que valida que la contraseña tenga mas de 6 caracteres
-            else if (password.length < 6) {
-              Alert.alert('Error', 'La contraseña debe tener mas de 6 caracteres');
-            }
-            //si todo esta bien se hace la peticion a la api
-            else {
-              login(email, password);
-            }
-          }}>
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
-        </TouchableOpacity>
+    <ScrollView
+      style={styles.containerScroll}
+      contentContainerStyle={styles.containerScroll}
+    >
+      <View style={styles.container}>
+        <Spinner visible={isLoading} />
+        <View style={styles.wrapper}>
+          <Image source={require('../assets/torneo.png')} style={styles.image} />
+          <Text style={styles.label}>Correo electrónico</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            placeholder="Introduce tu Correo Electronico"
+            onChangeText={text => setEmail(text)}
+          />
+          <Text style={styles.label}>Contraseña</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            placeholder="Introduce tu Contraseña"
+            onChangeText={text => setPassword(text)}
+            secureTextEntry
+          />
+          <Text>{''}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              //if que valida que los campos no esten vacios
+              if (email === null || password === null) {
+                Alert.alert('Error', 'Los campos no pueden estar vacios');
+              }
+              //if que valida que el correo sea valido
+              else if (
+                email.includes('@') === false ||
+                email.includes('.com') === false
+              ) {
+                Alert.alert('Error', 'El correo no es valido');
+              }
+              //if que valida que la contraseña tenga mas de 6 caracteres
+              else if (password.length < 6) {
+                Alert.alert('Error', 'La contraseña debe tener mas de 6 caracteres');
+              }
+              //si todo esta bien se hace la peticion a la api
+              else {
+                login(email, password);
+              }
+            }}>
+            <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  containerScroll: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',

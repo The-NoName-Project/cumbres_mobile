@@ -13,6 +13,7 @@ import Users from '../screens/UsersScreen';
 import ActivitiesScreen from '../screens/ActivitiesScreen';
 import Logout from '../screens/LogoutScrenn';
 import Graphic from '../screens/Graficas';
+import VisorQuestion from '../screens/VisorQuestions';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ const Navigation = () => {
               }}
             />
 
-            {userInfo.user.role_id > 1 ? (
+            {userInfo.user.role_id === 4 ? (
               <>
                 <Tab.Screen name="Questions" component={Questions}
                   options={{
@@ -102,6 +103,20 @@ const Navigation = () => {
                   }}
                 />
               </>
+            ) : null}
+
+            {userInfo.user.role_id === 2 ? (
+              <Tab.Screen
+                name="Questions"
+                component={VisorQuestion}
+                options={{
+                  headerShown: false,
+                  tabBarLabel: 'Preguntas',
+                  tabBarIcon: ({ }) => (
+                    <Icon name="questioncircleo" color={'black'} size={15} />
+                  ),
+                }}
+              />
             ) : null}
             <Tab.Screen name="Logout" component={Logout}
               options={{

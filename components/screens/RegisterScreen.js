@@ -18,6 +18,7 @@ const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState(null);
   const [app, setApp] = useState(null);
   const [apm, setApm] = useState(null);
+  const [gender, setGender] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [school_id, setSchool_id] = useState(null);
@@ -101,17 +102,6 @@ const RegisterScreen = ({ navigation }) => {
     })
   }
 
-  const data = {
-    name: name,
-    app: app,
-    apm: apm,
-    email: email,
-    password: password,
-    school_id: school_id,
-    level_id: level_id,
-    role_id: role_id,
-  }
-
   return (
     <ScrollView
       style={styles.scroll}
@@ -143,6 +133,16 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Introduce tu apellido materno"
             onChangeText={text => setApm(text)}
           />
+          <Text style={styles.label}>Genero</Text>
+          <Picker
+            selectedValue={gender}
+            mode="dropdown"
+            style={{ height: 50, width: 300 }}
+            onValueChange={itemValue => setGender(itemValue)}>
+            <Picker.Item label="Selecciona tu genero" value="" />
+            <Picker.Item label="Masculino" value="Masculino" />
+            <Picker.Item label="Femenino" value="Femenino" />
+          </Picker>
           <Text style={styles.label}>Correo electrónico</Text>
           <TextInput
             style={styles.input}
