@@ -15,16 +15,16 @@ import axios from 'axios';
 import {BASE_URL} from '../config';
 
 export default function VisorQuestion({navigation}) {
-  const {isLoading, questions, userInfo, res, setResFalse} =
+  const {isLoading, questionsVisor, userInfo, res, setResFalse} =
     useContext(AuthContext);
   const [getSport, setGetSport] = useState([]);
   const [getCategory, setGetCategory] = useState([]);
   const [getSchool, setGetSchool] = useState([]);
   const [load, setLoad] = useState(false);
-  const [sport, setSport] = useState(null);
-  const [level, setLevel] = useState(null);
+  const [sport_id, setSport] = useState(null);
+  const [level_id, setLevel] = useState(null);
   const [gender, setGender] = useState(null);
-  const [school, setSchool] = useState(null);
+  const [school_id, setSchool] = useState(null);
   const [q1, setQ1] = useState(null);
   const [q2, setQ2] = useState(null);
   const [q3, setQ3] = useState(null);
@@ -116,12 +116,15 @@ export default function VisorQuestion({navigation}) {
       q5 == null ||
       q6 == null ||
       q7 == null ||
-      q8 == null
+      q8 == null ||
+      sport_id == null ||
+      level_id  == null ||
+      gender == null ||
+      school_id == null
     ) {
-      //la alerta es transparente
       Alert.alert('Error', 'Por favor contesta todas las preguntas');
     } else {
-      questions(q1, q2, q3, q4, q5, q6, q7, q8, id);
+      questionsVisor(q1, q2, q3, q4, q5, q6, q7, q8, id, sport_id, level_id, gender, school_id  );
       navigation.navigate('Home');
     }
   };
@@ -139,7 +142,7 @@ export default function VisorQuestion({navigation}) {
             <Spinner visible={isLoading} />
             <Text style={styles.label}>Deporte</Text>
             <Picker
-              selectedValue={sport}
+              selectedValue={sport_id}
               style={styles.picker}
               mode="dropdown"
               onValueChange={itemValue => setSport(itemValue)}>
@@ -148,7 +151,7 @@ export default function VisorQuestion({navigation}) {
             </Picker>
             <Text style={styles.label}>Categoria</Text>
             <Picker
-              selectedValue={level}
+              selectedValue={level_id}
               style={styles.picker}
               mode="dropdown"
               onValueChange={itemValue => setLevel(itemValue)}>
@@ -167,7 +170,7 @@ export default function VisorQuestion({navigation}) {
             </Picker>
             <Text style={styles.label}>Escuela</Text>
             <Picker
-              selectedValue={school}
+              selectedValue={school_id}
               style={styles.picker}
               mode="dropdown"
               onValueChange={itemValue => setSchool(itemValue)}>
@@ -188,7 +191,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ1(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -203,7 +206,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ2(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -218,7 +221,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ3(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -233,7 +236,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ4(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -247,7 +250,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ5(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -261,7 +264,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ6(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -276,7 +279,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ7(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -291,7 +294,7 @@ export default function VisorQuestion({navigation}) {
               style={styles.picker}
               onValueChange={itemValue => setQ8(itemValue)}>
               <Picker.Item label="Seleccione una opción" value="" />
-              <Picker.Item label="Totalmente De acuerdo" value="3" />
+              <Picker.Item label="Totalmente de acuerdo" value="3" />
               <Picker.Item label="De acuerdo" value="2" />
               <Picker.Item label="En desacuerdo" value="1" />
               <Picker.Item label="Totalmente en desacuerdo" value="0" />

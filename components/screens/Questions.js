@@ -42,7 +42,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ1(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -55,7 +55,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ2(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -68,7 +68,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ3(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -81,7 +81,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ4(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -94,7 +94,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ5(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -107,7 +107,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ6(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -120,7 +120,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ7(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />
@@ -133,7 +133,7 @@ export default function Questions({ navigation }) {
                             onValueChange={itemValue => setQ8(itemValue)}
                         >
                             <Picker.Item label='Seleccione una opción' value='' />
-                            <Picker.Item label="Totalmente De acuerdo" value="3" />
+                            <Picker.Item label="Totalmente de acuerdo" value="3" />
                             <Picker.Item label="De acuerdo" value="2" />
                             <Picker.Item label="En desacuerdo" value="1" />
                             <Picker.Item label="Totalmente en desacuerdo" value="0" />

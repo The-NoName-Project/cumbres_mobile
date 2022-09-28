@@ -90,6 +90,39 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
+  const questionsVisor = async (q1, q2, q3, q4, q5, q6, q7, q8, id, sport_id, level_id, gender, school_id) => {
+    setIsLoading(true);
+    //cambia el id por user_id
+    let user_id = id;
+    axios
+      .post(BASE_URL + '/q', {
+        q1,
+        q2,
+        q3,
+        q4,
+        q5,
+        q6,
+        q7,
+        q8,
+        user_id,
+        sport_id,
+        level_id,
+        gender,
+        school_id,        
+      })
+      .then(res => {
+        let questions = res.data.message;
+        setRes(true);
+        AsyncStorage.setItem('questionsVisor', JSON.stringify(questions));
+        setIsLoading(false);
+      })
+      .catch(e => {
+        console.log(`questions visor error ${e}`);
+        setRes(false);
+        setIsLoading(false);
+      });
+  };
+
   const activities = (peopleone, peopletwo, sport, visor, scoreone, scoretwo) => {
     setIsLoading(true);
     axios
@@ -167,6 +200,7 @@ export const AuthProvider = ({ children }) => {
         activities,
         act,
         setResFalse,
+        questionsVisor,
       }}>
       {children}
     </AuthContext.Provider>
